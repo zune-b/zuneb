@@ -76,9 +76,13 @@ class PolymarketClient:
         self._http_client: Optional[httpx.AsyncClient] = None
         self._account: Optional[Account] = None
 
-        if private_key:
-            self._account = Account.from_key(private_key)
-            logger.info("Initialized wallet", address=self._account.address)
+        # Only initialize wallet if private key looks valid (0x + 64 hex chars)
+        if private_key and private_key.startswith("0x") and len(private_key) == 66:
+            try:
+                self._account = Account.from_key(private_key)
+                logger.info("Initialized wallet", address=self._account.address)
+            except Exception as e:
+                logger.warning("Invalid private key format", error=str(e))
 
     async def __aenter__(self):
         """Async context manager entry."""

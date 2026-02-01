@@ -10,7 +10,8 @@ from apscheduler.triggers.interval import IntervalTrigger
 
 from .config import settings
 from .polymarket.client import PolymarketClient, Market
-from .polymarket.markets import MarketFetcher, MarketContext
+from .polymarket.markets import MarketFetcher
+from .signals.base import MarketContext
 from .polymarket.trading import TradingExecutor, TradeResult, RiskLimits
 from .signals.ensemble import EnsemblePredictor, EnsemblePrediction
 
